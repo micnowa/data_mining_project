@@ -1,0 +1,8 @@
+1) A, B, C, D, E, F
+2) B, D, F
+3) A, C, E
+4) E, F
+5) A, E
+6) B, C, D, F
+7) A, E, F
+8) B, C, D, E
