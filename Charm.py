@@ -21,6 +21,11 @@ def charm(file_name, minSup):
                 del tmp[x]
         if i is not 0:
             layers[i - 1] = determine_closed_items(layers[i - 1], layers[i])
+            print(layers[i-1])
+            for key in layers[i-1]:
+                layers[i-1][key] = len(layers[i-1][key])
+    for key in layers[-1]:
+        layers[-1][key] = len(layers[-1][key])
     return layers
 
 
