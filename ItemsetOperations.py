@@ -104,3 +104,64 @@ def determine_closed_items(items1, items2):
             closed_items[x] = items1[x]
         closed = True
     return closed_items
+
+#---------Closed to Frequent
+
+def subsets(itemset):
+    subs = []
+    for i in itemset:
+        subs.append(str(i))
+    k = len(subs)
+    if k > 2:
+        for i in range(k - 1):
+            for j in range(k - 1 - i):
+                temp = ""
+                temp = str(subs[i]) + str(subs[i + j + 1])
+                subs.append(temp)
+    return subs
+
+#-----------Apriori
+
+def calcSupport(itemset,file_name):
+    numItems = file_len(file_name)
+    supportSet = {}
+    for i in range(len(itemset)):
+        for key, value  in itemset[i].items():
+            supportSet[key] = value/numItems
+    return supportSet
+
+
+def apriori_Gen(Lk, k): #creates Ck
+    Ck = []
+    lenLk = len(Lk)
+    for i in range(lenLk):
+        for j in range(i+1, lenLk):
+            L1 = list(Lk[i])[:k-2]; L2 = list(Lk[j])[:k-2]
+            L1.sort(); L2.sort()
+            if L1==L2:
+                Ck.append(Lk[i] + Lk[j])
+    return Ck
+
+
+
+
+
+def calcConf(freqSet, H, supportData, rules, minConf=0.7):
+    Hn = []
+    for Hi in H:
+        confidence = supportData[freqSet]/supportData[delete_subset(freqSet,Hi)]  #calc confidence
+        if confidence >= minConf:
+            print (delete_subset(freqSet,Hi),'-->',Hi,'confidence:',confidence)
+            rules.append((delete_subset(freqSet,Hi), "," ,Hi, Hi, confidence))
+            Hn.append(Hi)
+    return H
+
+
+def rulesFromConseq(freqSet, H, supportData, rules, minConf=0.7):
+    m = len(H[0])
+    if (len(freqSet) > (m + 1)):
+        Hmp1 = apriori_Gen(H, m+1)
+        Hmp1 = calcConf(freqSet, Hmp1, supportData, rules, minConf)
+        if (len(Hmp1) > 1):
+            rulesFromConseq(freqSet, Hmp1, supportData, rules, minConf)
+

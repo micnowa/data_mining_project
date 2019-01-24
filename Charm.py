@@ -2,6 +2,8 @@ import os
 from ItemsetOperations import *
 
 
+
+
 def charm(file_name, minSup):
     if minSup < 1:
         return {}
@@ -21,12 +23,38 @@ def charm(file_name, minSup):
                 del tmp[x]
         if i is not 0:
             layers[i - 1] = determine_closed_items(layers[i - 1], layers[i])
-            print(layers[i-1])
             for key in layers[i-1]:
                 layers[i-1][key] = len(layers[i-1][key])
     for key in layers[-1]:
         layers[-1][key] = len(layers[-1][key])
     return layers
+
+
+def closed_to_frequent(layers):
+    k = len(layers) - 1
+    for k in range(k,0,-1):
+        for key, value in layers[k].items():
+           Itemset_subsets = subsets(key)
+           itemsetSupport = value
+           for subset in Itemset_subsets:
+               subIndex = len(subset) - 1
+               if subset not in layers[subIndex]:
+                   layers[subIndex][subset] = itemsetSupport
+    return layers
+
+
+def Apriori(itemset, minConf = 0.7):
+    supportData = calcSupport(itemset,file_name)
+    Rules = []
+    for i in range(1, len(itemset)):
+        for freqSet in itemset[i]:
+            H1 = [item for item in freqSet]
+            if (i > 1):
+                rulesFromConseq(freqSet, H1, supportData, Rules, minConf)
+            else:
+                calcConf(freqSet, H1, supportData, Rules, minConf)
+    return Rules
+
 
 
 file_name = input('Enter file name: ')
@@ -40,12 +68,22 @@ minSup = input('Enter minimal support:   ')
 if int(minSup) < 1:
     raise ValueError('Cannot process when minSup is less than 1')
 
-print(charm(file_name, int(minSup)))
-# A, B, C, D, E, F
-# B, D, F
-# A, C, E
-# E, F, H
-# A, E, I
-# B, C, D, F
-# A, E, F
-# B, C, D, E
+
+closed_itemsets = charm(file_name, int(minSup))
+print("Closed itemsets:")
+print(closed_itemsets,"\n")
+print("*"*80)
+
+
+
+frequent_itemsets = closed_to_frequent(closed_itemsets)
+print("Frequent itemsets:")
+print(frequent_itemsets,"\n")
+print("*"*80)
+
+
+print("Association rules:")
+rules = Apriori(frequent_itemsets, minConf = 0.4)
+
+
+

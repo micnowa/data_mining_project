@@ -1,3 +1,5 @@
+import re
+
 def lcs(str1, str2):  # Creates common part of two strings
     s = set(str1)
     t = set(str2)
@@ -32,3 +34,6 @@ def tid_from_file(file_name):  # returns list of transaction identifiers in give
     for line in range(num):
         transactions_id.append(line + 1)
     return transactions_id
+
+def delete_subset(superset,subset):
+    return re.sub('[' + subset + ']', '', superset)

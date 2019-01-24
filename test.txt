@@ -5,4 +5,3 @@ A, C, D
 A, B, D
 A, B, D
 A, C, D
-B
