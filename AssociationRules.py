@@ -73,6 +73,8 @@ minSupRules = input('Enter minimal support for Association rules:   ')
 minSupRules = float(minSupRules)
 if minSupRules < 0:
     raise ValueError('Cannot process when minSup is less than 0')
+if minSupRules > 1:
+    raise ValueError('Cannot process when minSup is greater than 1')
 
 
 minConf = input('Enter minimal confidence for Association rules:   ')
