@@ -43,16 +43,16 @@ def closed_to_frequent(layers):
     return layers
 
 
-def Apriori(itemset, minConf = 0.7):
+def Apriori(itemset, minConf = 0.7, minSup = 0.7):
     supportData = calcSupport(itemset,file_name)
     Rules = []
     for i in range(1, len(itemset)):
         for freqSet in itemset[i]:
             H1 = [item for item in freqSet]
             if (i > 1):
-                rulesFromConseq(freqSet, H1, supportData, Rules, minConf)
+                rulesFromConseq(freqSet, H1, supportData, Rules, minConf, minSup)
             else:
-                calcConf(freqSet, H1, supportData, Rules, minConf)
+                calcConf(freqSet, H1, supportData, Rules, minConf, minSup)
     return Rules
 
 
@@ -64,18 +64,24 @@ if os.path.exists(file_name):
 else:
     raise IOError("No such file")
 
-minSup = input('Enter minimal support:   ')
-if int(minSup) < 1:
+minSupCharm = input('Enter minimal support for frequent itemsets:   ')
+if int(minSupCharm) < 1:
     raise ValueError('Cannot process when minSup is less than 1')
 
 
-minConf = input('Enter minimal confidence:   ')
+minSupRules = input('Enter minimal support for Association rules:   ')
+minSupRules = float(minSupRules)
+if minSupRules < 0:
+    raise ValueError('Cannot process when minSup is less than 0')
+
+
+minConf = input('Enter minimal confidence for Association rules:   ')
 minConf = float(minConf)
 if minConf < 0:
     raise ValueError('Cannot process when minConf is less than 0')
 
 
-closed_itemsets = charm(file_name, int(minSup))
+closed_itemsets = charm(file_name, int(minSupCharm))
 print("Closed itemsets:")
 print(closed_itemsets,"\n")
 print("*"*80)
@@ -89,7 +95,7 @@ print("*"*80)
 
 
 print("Association rules:")
-rules = Apriori(frequent_itemsets, minConf)
+rules = Apriori(frequent_itemsets, minConf, minSupRules)
 
 
 

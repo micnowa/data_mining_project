@@ -146,7 +146,7 @@ def apriori_Gen(Lk, k): #creates Ck
 
 
 
-def calcConf(freqSet, H, supportData, rules, minConf=0.7):
+def calcConf(freqSet, H, supportData, rules, minConf=0.7, minSup = 0.7):
     Hn = []
     for Hi in H:
         if (len(Hi) < len(freqSet)):
@@ -154,18 +154,19 @@ def calcConf(freqSet, H, supportData, rules, minConf=0.7):
             if super in supportData:
                 superSupport = supportData[super]
             confidence = supportData[freqSet]/superSupport  #calc confidence
-            if confidence >= minConf:
-                print (delete_subset(freqSet,Hi),'-->',Hi,'confidence:',confidence)
+            support = supportData[freqSet]
+            if confidence >= minConf and support >= minSup:
+                print (delete_subset(freqSet,Hi),'-->',Hi,'support: ', round(support,3), 'confidence:',round(confidence,3))
                 rules.append((delete_subset(freqSet,Hi), "," ,Hi, Hi, confidence))
                 Hn.append(Hi)
     return H
 
 
-def rulesFromConseq(freqSet, H, supportData, rules, minConf=0.7):
+def rulesFromConseq(freqSet, H, supportData, rules, minConf=0.7, minSup = 0.7):
     m = len(H[0])
     if (len(freqSet) > (m + 1)):
         Hmp1 = apriori_Gen(H, m+1)
-        Hmp1 = calcConf(freqSet, Hmp1, supportData, rules, minConf)
+        Hmp1 = calcConf(freqSet, Hmp1, supportData, rules, minConf, minSup)
         if (len(Hmp1) > 1):
-            rulesFromConseq(freqSet, Hmp1, supportData, rules, minConf)
+            rulesFromConseq(freqSet, Hmp1, supportData, rules, minConf, minSup)
 
