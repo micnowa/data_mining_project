@@ -4,6 +4,7 @@ Project for data mining
 Requirements:
 - Python 3.7 to run CHARM.py as executable program
 - Provided text file which holds database form where association rules are to be mined
+- re library
 
 Execution:
 As to run program and find strong associations rules user is aksed to provide text file that hold database.
