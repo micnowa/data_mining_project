@@ -1,0 +1,16 @@
+A, C, E
+A, C, D, E
+C, D, F
+A, C, D, F
+A, B, D, E
+A, B, D
+A, C, D, E, F
+A, C, D, B
+A, B, E, F
+B, D, F
+D, E, F
+E, F
+A, C, D, E, F
+A, C, D, E, F
+A, E, F
+C, E, F

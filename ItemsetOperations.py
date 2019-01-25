@@ -149,11 +149,15 @@ def apriori_Gen(Lk, k): #creates Ck
 def calcConf(freqSet, H, supportData, rules, minConf=0.7):
     Hn = []
     for Hi in H:
-        confidence = supportData[freqSet]/supportData[delete_subset(freqSet,Hi)]  #calc confidence
-        if confidence >= minConf:
-            print (delete_subset(freqSet,Hi),'-->',Hi,'confidence:',confidence)
-            rules.append((delete_subset(freqSet,Hi), "," ,Hi, Hi, confidence))
-            Hn.append(Hi)
+        if (len(Hi) < len(freqSet)):
+            super = delete_subset(freqSet,Hi)
+            if super in supportData:
+                superSupport = supportData[super]
+            confidence = supportData[freqSet]/superSupport  #calc confidence
+            if confidence >= minConf:
+                print (delete_subset(freqSet,Hi),'-->',Hi,'confidence:',confidence)
+                rules.append((delete_subset(freqSet,Hi), "," ,Hi, Hi, confidence))
+                Hn.append(Hi)
     return H
 
 

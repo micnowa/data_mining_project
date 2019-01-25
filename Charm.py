@@ -77,7 +77,7 @@ print("*"*80)
 
 
 frequent_itemsets = closed_to_frequent(closed_itemsets)
-print("Frequent itemsets:")
+print("Frequent itemsets: ")
 print(frequent_itemsets,"\n")
 print("*"*80)
 
