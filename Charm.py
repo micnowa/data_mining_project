@@ -69,6 +69,12 @@ if int(minSup) < 1:
     raise ValueError('Cannot process when minSup is less than 1')
 
 
+minConf = input('Enter minimal confidence:   ')
+minConf = float(minConf)
+if minConf < 0:
+    raise ValueError('Cannot process when minConf is less than 0')
+
+
 closed_itemsets = charm(file_name, int(minSup))
 print("Closed itemsets:")
 print(closed_itemsets,"\n")
@@ -83,7 +89,7 @@ print("*"*80)
 
 
 print("Association rules:")
-rules = Apriori(frequent_itemsets, minConf = 0.4)
+rules = Apriori(frequent_itemsets, minConf)
 
 
 
