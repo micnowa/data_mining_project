@@ -17,7 +17,7 @@ n - number of the transactionID
 item_m_i - in i-th row and m-th column
 After execution of program user is asked to write name of the text file and give 3 values:
 
-  minSupCharm <1,n> - integer defining minimal support for the frequent itemsets
-  minSupRules <0,1> - float definig minimal support for the association rules
-  minConf <0,n> - float defining minimal confidence for the association rules
+  - minSupCharm <1,n> - integer defining minimal support for the frequent itemsets
+  - minSupRules <0,1> - float definig minimal support for the association rules
+  - minConf <0,n> - float defining minimal confidence for the association rules
 
